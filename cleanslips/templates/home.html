@@ -1,51 +1,67 @@
 {% extends 'base.html' %}
-{% load static %}
+			{% load static %}
+			{% block content %}
+			<form method="POST" action="/find" >
+				<h2 class="heading">Choose your campus:</h2>
+				<div>
+					<select name="campus">
+									<option value="ALF">Alfred State College</option>
+			<option value="AUA">Alfred University</option>
+			<option value="BIN">Binghamton University</option>
+			<option value="BSC">Buffalo State College</option>
+			<option value="CAY">Cayuga Community College</option>
+			<option value="CLI">Clinton Community College</option>
+			<option value="ESF">College of Environmental Science & Forestry</option>
+			<option value="OPT">College of Optometry</option>
+			<option value="COL">Columbia-Greene Community College</option>
+			<option value="CNG">Corning Community College</option>
+			<option value="ERI">Erie Community College</option>
+			<option value="FAR">Farmingdale State College</option>
+			<option value="FIT">Fashion Institute of Technology</option>
+			<option value="GCC">Genesee Community College</option>
+			<option value="HVC">Hudson Valley Community College</option>
+			<option value="JEF">Jefferson Community College</option>
+			<option value="MAR">Maritime College</option>
+			<option value="MVC">Mohawk Valley Community College</option>
+			<option value="MON">Monroe Community College</option>
+			<option value="MOR">Morrisville State College</option>
+			<option value="NAS">Nassau Community College</option>
+			<option value="ORN">Orange County Community College</option>
+			<option value="BRO">SUNY Brockport</option>
+			<option value="BCC">SUNY Broome Community College</option>
+			<option value="CAN">SUNY Canton</option>
+			<option value="COB">SUNY Cobleskill</option>
+			<option value="COR">SUNY Cortland</option>
+			<option value="DEL">SUNY Delhi</option>
+			<option value="ESC">SUNY Empire State College</option>
+			<option value="FRE">SUNY Fredonia</option>
+			<option value="GEN">SUNY Geneseo</option>
+			<option value="NEWP">SUNY New Paltz</option>
+			<option value="OLD">SUNY Old Westbury</option>
+			<option value="ONE">SUNY Oneonta</option>
+			<option value="OSW">SUNY Oswego</option>
+			<option value="PLA">SUNY Plattsburgh</option>
+			<option value="INS">SUNY Polytechnic Institute</option>
+			<option value="POT">SUNY Potsdam</option>
+			<option value="PUR">SUNY Purchase</option>
+			<option value="SCH">Schenectady County Community College</option>
+			<option value="STB">Stony Brook University</option>
+			<option value="SUL">Sullivan County Community College</option>
+			<option value="TCC">Tompkins Cortland Community College</option>
+			<option value="ALB">University at Albany</option>
+			<option value="BUF">University at Buffalo</option>
+			<option value="UPS">Upstate Medical University</option>
 
-{% block content %}
-<form method="POST" action="/find" >
-    <h2 class="heading">
-        Choose your campus:
-    </h2>
-    <div>
-        <select name="campus">
-            <option value="CBA">Bakersfield</option>
-            <option value="U$C">Channel Islands</option>
-            <option value="CCH">Chico</option>
-            <option value="CDH">Dominguez Hills</option>
-            <option value="CSH">East Bay</option>
-            <option value="CFS">Fresno</option>
-            <option value="CFI">Fullerton</option>
-            <option value="CHU">Humboldt</option>
-            <option value="CLO">Long Beach</option>
-            <option value="CLA">Los Angeles</option>
-            <option value="CVM">Maritime Academy</option>
-            <option value="MB@">Monterey Bay</option>
-            <option value="MFL">Moss Landing</option>
-            <option value="CNO">Northridge</option>
-            <option value="CPO">Pomona</option>
-            <option value="CSA">Sacramento</option>
-            <option value="CSB">San Bernardino</option>
-            <option value="CDS">San Diego</option>
-            <option value="CSF">San Francisco</option>
-            <option value="CSJ">San Jose</option>
-            <option value="CPS">San Luis Obispo</option>
-            <option value="CS1">San Marcos</option>
-            <option value="CSO">Sonoma</option>
-            <option value="CTU">Stanislaus</option>
-        </select>
-    </div>
-
-    <h2 class="heading">
-        Choose your slip type:
-    </h2>
-    <div>
-        <select name="template">
-            <option value="flags">Flags</option>
-            <option value="stickers">Stickers</option>
-        </select>
-    </div>
-    
-    {% csrf_token %}
-    <input type="submit" value="Submit">
-</form>
-{% endblock %}
+					</select>
+				</div>
+				<h2 class="heading">Choose your slip type:</h2>
+				<div>
+					<select name="template">
+						<option value="flags">Flags</option>
+						<option value="stickers">Stickers</option>
+					</select>
+				</div>
+				{% csrf_token %}
+				<input type="submit" value="Submit">
+			</form>
+			{% endblock %}

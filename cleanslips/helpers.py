@@ -1,80 +1,51 @@
-def get_campus_name (campus):
-    # check campus code
-    campuses = []
-    
-    campus = campus.upper()
-    
-    campus_name = None
-    if campus == "CBA":
-        campus_name = "Bakersfield"
-
-    if campus == "U$C":
-        campus_name = "Channel Islands"
-
-    if campus == "CCH":
-        campus_name = "Chico"
-
-    if campus == "CDH":
-        campus_name = "Dominguez Hills"
-
-    if campus == "CSH":
-        campus_name = "East Bay"
-
-    if campus == "CFS":
-        campus_name = "Fresno"
-
-    if campus == "CFI":
-        campus_name = "Fullerton"
-
-    if campus == "CHU":
-        campus_name = "Humboldt"
-
-    if campus == "CLO":
-        campus_name = "Long Beach"
-
-    if campus == "CLA":
-        campus_name = "Los Angeles"
-
-    if campus == "CVM":
-        campus_name = "Maritime Academy"
-
-    if campus == "MB@":
-        campus_name = "Monterey Bay"
-
-    if campus == "MFL":
-        campus_name = "Moss Landing"
-
-    if campus == "CNO":
-        campus_name = "Northridge"
-
-    if campus == "CPO":
-        campus_name = "Pomona"
-
-    if campus == "CSA":
-        campus_name = "Sacramento"
-
-    if campus == "CSB":
-        campus_name = "San Bernardino"
-    
-    if campus == "CDS":
-        campus_name = "San Diego"
-
-    if campus == "CSF":
-        campus_name = "San Francisco"
-
-    if campus == "CSJ":
-        campus_name = "San Jose"
-
-    if campus == "CPS":
-        campus_name = "San Luis Obispo"
-
-    if campus == "CS1":
-        campus_name = "San Marcos"
-
-    if campus == "CSO":
-        campus_name = "Sonoma"
-
-    if campus == "CTU":
-        campus_name = "Stanislaus"
-        
-    return campus_name
+def get_campus_name(campus):
+	campuses = []
+	campus = campus.upper()
+	campus_name = None
+	if campus == "ALF": campus_name = "Alfred State College"
+	if campus == "AUA": campus_name = "Alfred University"
+	if campus == "BIN": campus_name = "Binghamton University"
+	if campus == "BSC": campus_name = "Buffalo State College"
+	if campus == "CAY": campus_name = "Cayuga Community College"
+	if campus == "CLI": campus_name = "Clinton Community College"
+	if campus == "ESF": campus_name = "College of Environmental Science & Forestry"
+	if campus == "OPT": campus_name = "College of Optometry"
+	if campus == "COL": campus_name = "Columbia-Greene Community College"
+	if campus == "CNG": campus_name = "Corning Community College"
+	if campus == "ERI": campus_name = "Erie Community College"
+	if campus == "FAR": campus_name = "Farmingdale State College"
+	if campus == "FIT": campus_name = "Fashion Institute of Technology"
+	if campus == "GCC": campus_name = "Genesee Community College"
+	if campus == "HVC": campus_name = "Hudson Valley Community College"
+	if campus == "JEF": campus_name = "Jefferson Community College"
+	if campus == "MAR": campus_name = "Maritime College"
+	if campus == "MVC": campus_name = "Mohawk Valley Community College"
+	if campus == "MON": campus_name = "Monroe Community College"
+	if campus == "MOR": campus_name = "Morrisville State College"
+	if campus == "NAS": campus_name = "Nassau Community College"
+	if campus == "ORN": campus_name = "Orange County Community College"
+	if campus == "BRO": campus_name = "SUNY Brockport"
+	if campus == "BCC": campus_name = "SUNY Broome Community College"
+	if campus == "CAN": campus_name = "SUNY Canton"
+	if campus == "COB": campus_name = "SUNY Cobleskill"
+	if campus == "COR": campus_name = "SUNY Cortland"
+	if campus == "DEL": campus_name = "SUNY Delhi"
+	if campus == "ESC": campus_name = "SUNY Empire State College"
+	if campus == "FRE": campus_name = "SUNY Fredonia"
+	if campus == "GEN": campus_name = "SUNY Geneseo"
+	if campus == "NEWP": campus_name = "SUNY New Paltz"
+	if campus == "OLD": campus_name = "SUNY Old Westbury"
+	if campus == "ONE": campus_name = "SUNY Oneonta"
+	if campus == "OSW": campus_name = "SUNY Oswego"
+	if campus == "PLA": campus_name = "SUNY Plattsburgh"
+	if campus == "INS": campus_name = "SUNY Polytechnic Institute"
+	if campus == "POT": campus_name = "SUNY Potsdam"
+	if campus == "PUR": campus_name = "SUNY Purchase"
+	if campus == "SCH": campus_name = "Schenectady County Community College"
+	if campus == "STB": campus_name = "Stony Brook University"
+	if campus == "SUL": campus_name = "Sullivan County Community College"
+	if campus == "TCC": campus_name = "Tompkins Cortland Community College"
+	if campus == "ALB": campus_name = "University at Albany"
+	if campus == "BUF": campus_name = "University at Buffalo"
+	if campus == "UPS": campus_name = "Upstate Medical University"
+	return campus_name

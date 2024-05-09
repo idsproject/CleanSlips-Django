@@ -7,7 +7,6 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
-    <link href="https://fonts.googleapis.com/css?family=Overpass|Permanent+Marker" rel="stylesheet">
 </head>
 
 <body>
@@ -15,15 +14,16 @@
         <nav class="primary-menu heading">
             <ul>     
                 <li><a href="/home">Home</a></li>
-                <li><a href="/docs">Documentation</a></li>  
-                <li><a href="/contact">Contact</a></li>          
+                <li><a href="/docs">Documentation</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="http://www.idsproject.org">IDS Project</a></li>
             </ul>
         </nav>
     </header>
     
     <main>
         <div>
-            <a href="{{ campus }}"><img src="{% static 'images/logo_large.png' %}" alt="Duck Logo"></a>
+            <a href=""><img src="{% static 'images/IDS_Logo_395w.png' %}" alt="IDS Project Logo"></a>
         </div>
         
         <div class="page-header heading">
@@ -33,5 +33,8 @@
         {% block content %}
         {% endblock %}
         
+				<div style="padding-top: 25px; clear: both;">
+					Based on <a href="https://github.com/MrJeremyHobbs/CleanSlips">CleanSlips</a>, developed by <a href="https://github.com/MrJeremyHobbs">Jeremy Hobbs</a>.
+				</div>
     </main>
 </body>

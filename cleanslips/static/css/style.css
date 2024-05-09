@@ -7,52 +7,52 @@
 
 h1 {
     font-size: 55px;
-    font-family: 'Permanent Marker', Cursive;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 h2 {
     font-size: 24px;
-    font-family: amatic sc, verdana;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 main, p {
     font-size: 17px;
-    font-family: 'Overpass', Sans-Serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .body-text {
-    font-family: 'Overpass', Sans-Serif;
+    font-family: Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .heading {
-    font-family: 'Permanent Marker', Cursive;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: black;
 }
 
 /* LINKS */
 a {
-   color: #829AFF;
+   color: #142736;
 }
 
 a:visited {
-    color: #829AFF;
+    color: #142736;
 }
 
 /* NAV MENU */
 nav {
     font-size: 17px;
-    font-family: amatic sc, verdana;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 nav a:hover {
-	background-color: #BECBFF;
+	background-color: #545454;
 }
 
 .primary-menu ul {
 	list-style-type:none;
 	padding: 3px;
 	margin: 0px;
-	background-color: #829AFF;
+	background-color: #142736;
 }
 
 .primary-menu li {
@@ -65,7 +65,7 @@ nav a:hover {
 	text-decoration:none;
 	color: white;
 	font-weight: bold;
-	background-color: #829AFF ;
+  background-color: #142736;
 	display: inline-block;
 	text-align: center;
 }
