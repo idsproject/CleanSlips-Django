@@ -23,7 +23,7 @@ def upload(request, campus, template):
     # get campus name
     campus_name = helpers.get_campus_name(campus)
     if campus_name == None:
-        return render(request, 'errors.html', {'title' : 'CleanSlips | Ooops',
+        return render(request, 'errors.html', {'title' : 'IDS Slips | Ooops',
                                                'campus': campus.upper(),
                                                'template': template,
                                                'errors' : f"Campus code '{campus.upper()}' was not found. Are you sure you have your correct 3 character campus code?"},
@@ -34,8 +34,8 @@ def upload(request, campus, template):
         file = forms.FileField()
         form = UploadFileForm()
         return render(request, 'upload.html', {'form': form,
-                                               'title': 'CleanSlips | '+campus_name,
-                                               'header': ('CleanSlips'),
+                                               'title': 'IDS Slips | '+campus_name,
+                                               'header': ('IDS Slips'),
                                                'campus': campus.upper(),
                                                'campus_name': campus_name})
 
@@ -48,7 +48,7 @@ def upload(request, campus, template):
 
             # Check file type
             if ".xls" not in str(filehandle):
-                return render(request, 'errors.html', {'title' : 'CleanSlips | Ooops',
+                return render(request, 'errors.html', {'title' : 'IDS Slips | Ooops',
                                                        'campus': campus.upper(),
                                                        'template': template,
                                                        'errors' : "Chosen file is not an .xls file. Are you sure that you chose LendingRequestReport.xls?"},
@@ -59,11 +59,22 @@ def upload(request, campus, template):
 
             # check header
             rows = filehandle.get_array()
-            if rows[0] != ['Title', 'Author', 'Publisher', 'Publication date', 'Barcode', 'ISBN/ISSN', 'Availability', 'Volume/Issue', 'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 'Partner name', 'Partner code', 'Copyright Status', 'Level of Service']:
-                return render(request, 'errors.html', {'title' : 'CleanSlips | Ooops',
+            """
+            ['Title', 'Author', 'Publisher', 'Publication date', 'Barcode', 'ISBN/ISSN', 'Availability', 'Volume/Issue', 
+             'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 
+             'Partner name', 'Partner code', 'Copyright Status', 'Level of Service', 'Requested Barcode', 'Chapter Information', 
+             'Journal Title', 'Page Numbers']
+
+            if rows[0] !=
+            ['Title', 'Author', 'Publisher', 'Publication date', 'Barcode', 'ISBN/ISSN', 'Availability', 'Volume/Issue', 
+             'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 
+             'Partner name', 'Partner code', 'Copyright Status', 'Level of Service', 'Requested Barcode']:
+            """
+            if rows[0] != ['Title', 'Author', 'Publisher', 'Publication date', 'Barcode', 'ISBN/ISSN', 'Availability', 'Volume/Issue', 'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 'Partner name', 'Partner code', 'Copyright Status', 'Level of Service', 'Requested Barcode']:
+                return render(request, 'errors.html', {'title' : 'IDS Slips | Ooops',
                                                        'campus': campus.upper(),
                                                        'template': template,
-                                                       'errors' : "The headers on this spreadsheet don't match what CleanSlips is expecting. Are you sure that you chose LendingRequestReport.xls?"},
+                                                       'errors' : "The headers on this spreadsheet don't match what IDS Slips is expecting. Are you sure that you chose LendingRequestReport.xls?"},
                                                        )
 
             # __________ PARSE SPREADSHEET ____________________________________
@@ -85,7 +96,10 @@ def upload(request, campus, template):
                 pickup_at = row[10]
                 electronic_available = row[11]
                 digital_available = row[12]
-                external_request_id = row[13]
+                eri = row[13]
+                eri = eri.split('//')[1:]
+                eri = '//'.join(eri)
+                external_request_id = eri
                 partner_name = row[14]
                 partner_code = row[15]
                 copyright_status = row[16]
@@ -98,7 +112,7 @@ def upload(request, campus, template):
                     comments = shipping_notes[0]
                     requestor_name = shipping_notes[1]
                 except:
-                    print(f"SHIPPING NOTE FIELD - {shipping_note} - IS NOT AS EXPECTED...ATTEMPTING TO COMPENSATE...")
+                    #print(f"SHIPPING NOTE FIELD - {shipping_note} - IS NOT AS EXPECTED...ATTEMPTING TO COMPENSATE...")
                     comments = ""
                     requestor_name = shipping_note
                     
@@ -142,7 +156,7 @@ def upload(request, campus, template):
                         lccn_components = lccn.components(include_blanks=True)
                         normalized_call_number = lccn.normalized
                     except:
-                        print(f"CALL NUMBER - {call_number} - IS NOT VALID LC. ATTEMPTING TO COMPENSATE...")
+                        #print(f"CALL NUMBER - {call_number} - IS NOT VALID LC. ATTEMPTING TO COMPENSATE...")
                         normalized_call_number = None
                     
                     if normalized_call_number == None:
@@ -159,6 +173,7 @@ def upload(request, campus, template):
                 # __________ ADD TO REQUESTS DICTIONARY _______________________
                 ill_request = {
                     'Partner_name' : partner_name,
+                    'Partner_Code' : partner_code,
                     'External_request_ID' : external_request_id,
                     'Availability' : full_availability,
                     'Call_Number' : call_number,
@@ -178,6 +193,55 @@ def upload(request, campus, template):
             # sort requests by location and normalized call number
             requests_sorted = sorted(ill_requests, key=itemgetter('Sort'))
 
+            # Inject lender/borrower address into requests for mail merge
+            # - List must be XLSX saved as MS DOS CSV
+            address_list = os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                'static',
+                'address_list.csv')
+            req2 = []
+            for req in requests_sorted:
+                if req['Partner_Code'] == 'ILL': continue
+                req['From_Institution'] = ''
+                req['From_LibraryName'] = ''
+                req['From_Address1'] = ''
+                req['From_City'] = ''
+                req['From_State'] = ''
+                req['From_Zip'] = ''
+                req['From_SYMBOL'] = ''
+                req['From_HUB'] = ''
+                req['To_Institution'] = ''
+                req['To_LibraryName'] = ''
+                req['To_Address1'] = ''
+                req['To_City'] = ''
+                req['To_State'] = ''
+                req['To_Zip'] = ''
+                req['To_SYMBOL'] = ''
+                req['To_HUB'] = ''
+                with open(address_list) as fin:
+                    for line in fin:
+                        line = line.split(',')
+                        if line[0] == req['Campus_Code']:
+                            req['From_Institution'] = line[2]
+                            req['From_LibraryName'] = line[3]
+                            req['From_Address1'] = line[4]
+                            req['From_City'] = line[5]
+                            req['From_State'] = line[6]
+                            req['From_Zip'] = line[7]
+                            req['From_SYMBOL'] = line[9]
+                            req['From_HUB'] = line[8]
+                        if line[1] == req['Partner_Code']:
+                            req['To_Institution'] = line[2]
+                            req['To_LibraryName'] = line[3]
+                            req['To_Address1'] = line[4]
+                            req['To_City'] = line[5]
+                            req['To_State'] = line[6]
+                            req['To_Zip'] = line[7]
+                            req['To_SYMBOL'] = line[9]
+                            req['To_HUB'] = line[8]
+                req2.append(req)
+            requests_sorted = req2
+
             # _________ GENERATE LABELS _______________________________________
             
             # stickers
@@ -188,7 +252,8 @@ def upload(request, campus, template):
 
             # flags
             if template == "flags":
-                template = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.join('static','slip_templates','campus', campus.upper(), 'TEMPLATE_flags.docx'))
+                #template = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.join('static','slip_templates','campus', campus.upper(), 'TEMPLATE_flags.docx'))
+                template = os.path.join(os.path.dirname(os.path.realpath(__file__)),'static','slip_templates','template_suny_flag.docx')
                 document = MailMerge(template)
                 document.merge_templates(requests_sorted, separator='column_break')
 
@@ -210,20 +275,20 @@ def upload(request, campus, template):
 
 # Other pages #################################################################
 def home(request):
-    return render(request, 'home.html', {f'title': 'CleanSlips | Home',
-                                         'header': 'CleanSlips'})
+    return render(request, 'home.html', {f'title': 'IDS Slips | Home',
+                                         'header': 'IDS Slips'})
 
 def find(request):
     if request.POST:
         return redirect(f"/campus={request.POST['campus']}&template={request.POST['template']}")
     else:
-        return render(request, 'errors.html', {'title': 'CleanSlips | Ooops!',
-                                                 'header': 'CleanSlips'})
+        return render(request, 'errors.html', {'title': 'IDS Slips | Ooops!',
+                                                 'header': 'IDS Slips'})
 
 def docs(request):
-    return render(request, 'docs.html', {'title': 'CleanSlips | Documentation',
-                                         'header': 'CleanSlips'})
+    return render(request, 'docs.html', {'title': 'IDS Slips | Documentation',
+                                         'header': 'IDS Slips'})
 
 def contact(request):
-    return render(request, 'contact.html', {'title': 'CleanSlips | Contact',
-                                         'header': 'CleanSlips'})
+    return render(request, 'contact.html', {'title': 'IDS Slips | Contact',
+                                         'header': 'IDS Slips'})
