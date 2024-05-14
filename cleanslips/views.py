@@ -70,7 +70,7 @@ def upload(request, campus, template):
              'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 
              'Partner name', 'Partner code', 'Copyright Status', 'Level of Service', 'Requested Barcode']:
             """
-            if rows[0] != ['Title', 'Author', 'Publisher', 'Publication date', 'Barcode', 'ISBN/ISSN', 'Availability', 'Volume/Issue', 'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 'Partner name', 'Partner code', 'Copyright Status', 'Level of Service', 'Requested Barcode']:
+            if rows[0] != ['Title', 'Author', 'Publisher', 'Publication date', 'Barcode', 'ISBN/ISSN', 'Availability', 'Volume/Issue', 'Shipping note', 'Requester email', 'Pickup at', 'Electronic available', 'Digital available', 'External request ID', 'Partner name', 'Partner code', 'Copyright Status', 'Level of Service', 'Requested Barcode', 'Chapter Information', 'Journal Title', 'Page Numbers']:
                 return render(request, 'errors.html', {'title' : 'IDS Slips | Ooops',
                                                        'campus': campus.upper(),
                                                        'template': template,
